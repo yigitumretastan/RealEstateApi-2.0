@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using RealEstateApiEntity.Models;
 using RealEstateApiRepositories.Contacts;
 using RealEstateApiServices.Contacts;
+using Microsoft.AspNetCore.Authorization;
+using RealEstateApiCore.DTOs;
 
 namespace RealEstateApiCore.Controllers
 {
@@ -19,13 +21,13 @@ namespace RealEstateApiCore.Controllers
         {
             this.userService = userService;
         }
-
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {
             try
             {
-                var users = await userService.GetAllUsers();
+                var users = await userService.GetAllUsersAsync();
                 return Ok(users);
             }
             catch (Exception ex)
@@ -33,24 +35,24 @@ namespace RealEstateApiCore.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-
+        [Authorize]
         [HttpGet("{id:int}")]
         public async Task<ActionResult<User>> GetUserById(int id)
         {
             try
             {
-                var user = await userRepository.GetUserById(id);
-                if (user == null) return NotFound();
-                return Ok(user);
+                var getOneUser = await userService.GetUserByIdAsync(id);
+                if (getOneUser == null)
+                    return NotFound(id);
+                return Ok(getOneUser);
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-
         [HttpPost]
-        public async Task<ActionResult<User>> CreateUser(User user)
+        public async Task<ActionResult<User>> Register(User user)
         {
             try
             {
@@ -67,20 +69,34 @@ namespace RealEstateApiCore.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-
-
+        [HttpPost]
+        public async Task<ActionResult<User>> Login(LoginDto loginDto)
+        {
+            try
+            {
+                var login = await userService.LoginAsync(string Email,string Password);
+                if (login == null)
+                    return NotFound(id);
+                return Ok(login);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        [Authorize]
         [HttpPut("{id:int}")]
         public async Task<ActionResult<User>> UpdateUser(int id, User user)
         {
             try
             {
-                if (id != user.Id)
-                    return BadRequest();
-
-                var updatedUser = await userRepository.UpdateUser(id, user);
+                var updatedUser = await userService.UpdateUserAsync(id, user);
                 if (updatedUser == null)
-                    return NotFound();
-
+                    return NotFound(id);
                 return Ok(updatedUser);
             }
             catch (Exception ex)
@@ -88,16 +104,15 @@ namespace RealEstateApiCore.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-
+        [Authorize]
         [HttpDelete("{id:int}")]
         public async Task<ActionResult<User>> DeleteUser(int id)
         {
             try
             {
-                var deletedUser = await userRepository.DeleteUser(id);
+                var deletedUser = await userService.DeleteUserAsync(id);
                 if (deletedUser == null)
-                    return NotFound();
-
+                    return NotFound(id);
                 return Ok(deletedUser);
             }
             catch (Exception ex)

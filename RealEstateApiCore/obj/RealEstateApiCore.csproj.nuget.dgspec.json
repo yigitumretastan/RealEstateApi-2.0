@@ -1,45 +1,39 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiCore\\RealEstateApiCore.csproj": {}
+    "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiCore/RealEstateApiCore.csproj": {}
   },
   "projects": {
-    "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiCore\\RealEstateApiCore.csproj": {
+    "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiCore/RealEstateApiCore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiCore\\RealEstateApiCore.csproj",
+        "projectUniqueName": "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiCore/RealEstateApiCore.csproj",
         "projectName": "RealEstateApiCore",
-        "projectPath": "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiCore\\RealEstateApiCore.csproj",
-        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiCore\\obj\\",
+        "projectPath": "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiCore/RealEstateApiCore.csproj",
+        "packagesPath": "/Users/yigit/.nuget/packages/",
+        "outputPath": "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiCore/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/yigit/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiEntity\\RealEstateApiEntity.csproj": {
-                "projectPath": "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiEntity\\RealEstateApiEntity.csproj"
+              "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiEntity/RealEstateApiEntity.csproj": {
+                "projectPath": "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiEntity/RealEstateApiEntity.csproj"
               },
-              "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiRepositories\\RealEstateApiRepositories.csproj": {
-                "projectPath": "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiRepositories\\RealEstateApiRepositories.csproj"
+              "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiRepositories/RealEstateApiRepositories.csproj": {
+                "projectPath": "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiRepositories/RealEstateApiRepositories.csproj"
               },
-              "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiServices\\RealEstateApiServices.csproj": {
-                "projectPath": "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiServices\\RealEstateApiServices.csproj"
+              "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiServices/RealEstateApiServices.csproj": {
+                "projectPath": "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiServices/RealEstateApiServices.csproj"
               }
             }
           }
@@ -54,12 +48,20 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[9.0.8, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.8, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[9.0.7, )"
@@ -83,6 +85,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[9.0.8, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[8.0.3, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
@@ -116,32 +122,26 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.303/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiEntity\\RealEstateApiEntity.csproj": {
+    "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiEntity/RealEstateApiEntity.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiEntity\\RealEstateApiEntity.csproj",
+        "projectUniqueName": "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiEntity/RealEstateApiEntity.csproj",
         "projectName": "RealEstateApiEntity",
-        "projectPath": "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiEntity\\RealEstateApiEntity.csproj",
-        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiEntity\\obj\\",
+        "projectPath": "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiEntity/RealEstateApiEntity.csproj",
+        "packagesPath": "/Users/yigit/.nuget/packages/",
+        "outputPath": "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiEntity/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/yigit/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -160,7 +160,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net9.0": {
@@ -181,40 +181,34 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.303/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiRepositories\\RealEstateApiRepositories.csproj": {
+    "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiRepositories/RealEstateApiRepositories.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiRepositories\\RealEstateApiRepositories.csproj",
+        "projectUniqueName": "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiRepositories/RealEstateApiRepositories.csproj",
         "projectName": "RealEstateApiRepositories",
-        "projectPath": "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiRepositories\\RealEstateApiRepositories.csproj",
-        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiRepositories\\obj\\",
+        "projectPath": "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiRepositories/RealEstateApiRepositories.csproj",
+        "packagesPath": "/Users/yigit/.nuget/packages/",
+        "outputPath": "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiRepositories/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/yigit/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiEntity\\RealEstateApiEntity.csproj": {
-                "projectPath": "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiEntity\\RealEstateApiEntity.csproj"
+              "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiEntity/RealEstateApiEntity.csproj": {
+                "projectPath": "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiEntity/RealEstateApiEntity.csproj"
               }
             }
           }
@@ -229,7 +223,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net9.0": {
@@ -284,40 +278,34 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.303/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiServices\\RealEstateApiServices.csproj": {
+    "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiServices/RealEstateApiServices.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiServices\\RealEstateApiServices.csproj",
+        "projectUniqueName": "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiServices/RealEstateApiServices.csproj",
         "projectName": "RealEstateApiServices",
-        "projectPath": "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiServices\\RealEstateApiServices.csproj",
-        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiServices\\obj\\",
+        "projectPath": "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiServices/RealEstateApiServices.csproj",
+        "packagesPath": "/Users/yigit/.nuget/packages/",
+        "outputPath": "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiServices/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/yigit/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiRepositories\\RealEstateApiRepositories.csproj": {
-                "projectPath": "C:\\Users\\admin\\Desktop\\Project\\RealEstateApi-2.0\\RealEstateApiRepositories\\RealEstateApiRepositories.csproj"
+              "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiRepositories/RealEstateApiRepositories.csproj": {
+                "projectPath": "/Users/yigit/Desktop/Yigit/RealEstate/RealEstateApi-2.0/RealEstateApiRepositories/RealEstateApiRepositories.csproj"
               }
             }
           }
@@ -332,7 +320,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net9.0": {
@@ -353,7 +341,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.303/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

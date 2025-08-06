@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using RealEstateApiEntity.Models;
 using RealEstateApiRepositories.Contacts;
+using RealEstateApiServices.Contacts;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RealEstateApiCore.Controllers
 {
@@ -13,17 +15,17 @@ namespace RealEstateApiCore.Controllers
     [Route("api/[controller]")]
     public class ListingController : ControllerBase
     {
-        private readonly IListingRepository listingRepository;
-        public ListingController(IListingRepository listingRepository)
+        private readonly IListingService listingService;
+        public ListingController(IListingService listingService)
         {
-            this.listingRepository = listingRepository;
+            this.listingService = listingService;
         }
         [HttpGet]
         public async Task<IActionResult> GetAllListing()
         {
             try
             {
-                return Ok(await listingRepository.GetAllListing());
+                return Ok(await listingService.GetAllListingAsync());
             }
             catch (Exception ex)
             {
@@ -35,7 +37,7 @@ namespace RealEstateApiCore.Controllers
         {
             try
             {
-                var result = await listingRepository.GetListingById(id);
+                var result = await listingService.GetListingByIdAsync(id);
                 if (result == null) return NotFound();
                 return Ok(result);
             }
@@ -44,13 +46,14 @@ namespace RealEstateApiCore.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateListing(Listing listing)
         {
             try
             {
                 if (listing == null) return BadRequest();
-                var CreateListing = await listingRepository.CreateListing(listing);
+                var CreateListing = await listingService.CreateListingAsync(listing);
                 return Ok(CreateListing);
             }
             catch (Exception ex)
@@ -58,12 +61,13 @@ namespace RealEstateApiCore.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+        [Authorize]
         [HttpPut("{id:int}")]
         public async Task<ActionResult<Listing>> UpdateOneListing(int id, Listing listing)
         {
             try
             {
-                var updateListing = await listingRepository.UpdateListing(id, listing);
+                var updateListing = await listingService.UpdateListingAsync(id, listing);
                 if (updateListing == null) return BadRequest();
                 return Ok(updateListing);
             }
@@ -72,12 +76,13 @@ namespace RealEstateApiCore.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+        [Authorize]
         [HttpDelete("{id:int}")]
         public async Task<ActionResult<Listing>> DeleteListing(int id)
         {
             try
             {
-                var deleteListing = await listingRepository.DeleteListing(id);
+                var deleteListing = await listingService.DeleteListingAsync(id);
                 if (deleteListing == null) return NotFound();
                 return Ok(deleteListing);
             }
