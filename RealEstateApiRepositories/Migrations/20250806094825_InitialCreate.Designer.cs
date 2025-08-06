@@ -11,7 +11,7 @@ using RealEstateApiRepositories;
 namespace RealEstateApiRepositories.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250805200810_InitialCreate")]
+    [Migration("20250806094825_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

@@ -15,23 +15,6 @@ namespace RealEstateApiRepositories
             this.applicationDbContext = applicationDbContext;
         }
 
-        public async Task<User> CreateUser(User user)
-        {
-            var result = await applicationDbContext.User.AddAsync(user);
-            await applicationDbContext.SaveChangesAsync();
-            return result.Entity;
-        }
-        public async Task<User?> DeleteUser(int userId)
-        {
-            var result = await applicationDbContext.User.FirstOrDefaultAsync(u => u.Id == userId);
-            if (result != null)
-            {
-                applicationDbContext.User.Remove(result);
-                await applicationDbContext.SaveChangesAsync();
-            }
-            return result;
-        }
-
         public async Task<IEnumerable<User>> GetAllUsers()
         {
             return await applicationDbContext.User.ToListAsync();
@@ -40,6 +23,22 @@ namespace RealEstateApiRepositories
         public async Task<User?> GetUserById(int userId)
         {
             return await applicationDbContext.User.FirstOrDefaultAsync(u => u.Id == userId);
+        }
+
+        public async Task<User> CreateUser(User user)
+        {
+            var result = await applicationDbContext.User.AddAsync(user);
+            await applicationDbContext.SaveChangesAsync();
+            return result.Entity;
+        }
+
+        public async Task<User?> Login(string email, string password)
+        {
+            var result = await applicationDbContext.User
+                .FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
+
+            return result;
+
         }
 
         public async Task<User?> UpdateUser(int userId, User user)
@@ -56,5 +55,17 @@ namespace RealEstateApiRepositories
             }
             return null;
         }
+
+        public async Task<User?> DeleteUser(int userId)
+        {
+            var result = await applicationDbContext.User.FirstOrDefaultAsync(u => u.Id == userId);
+            if (result != null)
+            {
+                applicationDbContext.User.Remove(result);
+                await applicationDbContext.SaveChangesAsync();
+            }
+            return result;
+        }
     }
 }
+

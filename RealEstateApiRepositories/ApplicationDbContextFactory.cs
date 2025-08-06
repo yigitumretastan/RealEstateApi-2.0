@@ -9,11 +9,13 @@ namespace RealEstateApiRepositories
     {
         public ApplicationDbContext CreateDbContext(string[] args)
         {
-            var basePath = @"C:\Users\admin\Desktop\Project\RealEstateApi-2.0\RealEstateApiCore";
+            var basePath = Path.Combine(Directory.GetCurrentDirectory(), "../RealEstateApiCore");
+
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(basePath)
                 .AddJsonFile("appsettings.json")
                 .Build();
+
 
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("DbConnection"));

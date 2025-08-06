@@ -26,6 +26,13 @@ namespace RealEstateApiRepositories
             return await applicationDbContext.Payment.FirstOrDefaultAsync(p => p.Id == paymentId);
         }
 
+        public async Task<Payment> CreatePayment(Payment payment)
+        {
+            var result = await applicationDbContext.Payment.AddAsync(payment);
+            await applicationDbContext.SaveChangesAsync();
+            return result.Entity;
+        }
+        
         public async Task<Payment?> UpdatePayment(int paymentId, Payment payment)
         {
             var result = await applicationDbContext.Payment.FirstOrDefaultAsync(p => p.Id == paymentId);
@@ -50,13 +57,6 @@ namespace RealEstateApiRepositories
                 return result;
             }
             return null;
-        }
-
-        public async Task<Payment> CreatePayment(Payment payment)
-        {
-            var result = await applicationDbContext.Payment.AddAsync(payment);
-            await applicationDbContext.SaveChangesAsync();
-            return result.Entity;
         }
     }
 }

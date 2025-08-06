@@ -14,26 +14,7 @@ namespace RealEstateApiRepositories
         {
             this.applicationDbContext = applicationDbContext;
         }
-
-        public async Task<Listing> CreateListing(Listing listing)
-        {
-            var result = await applicationDbContext.Listing.AddAsync(listing);
-            await applicationDbContext.SaveChangesAsync();
-            return result.Entity;
-        }
-
-        public async Task<Listing?> DeleteListing(int listingId)
-        {
-            var result = await applicationDbContext.Listing.FirstOrDefaultAsync(l => l.Id == listingId);
-            if (result != null)
-            {
-                applicationDbContext.Listing.Remove(result);
-                await applicationDbContext.SaveChangesAsync();
-                return result;
-            }
-            return null;
-        }
-
+        
         public async Task<IEnumerable<Listing>> GetAllListing()
         {
             return await applicationDbContext.Listing.ToListAsync();
@@ -43,6 +24,13 @@ namespace RealEstateApiRepositories
         {
             var result = await applicationDbContext.Listing.FirstOrDefaultAsync(l => l.Id == listingId);
             return result;
+        }
+
+        public async Task<Listing> CreateListing(Listing listing)
+        {
+            var result = await applicationDbContext.Listing.AddAsync(listing);
+            await applicationDbContext.SaveChangesAsync();
+            return result.Entity;
         }
 
         public async Task<Listing?> UpdateListing(int listingId, Listing listing)
@@ -59,6 +47,17 @@ namespace RealEstateApiRepositories
                 result.RoomCount = listing.RoomCount;
                 result.Price = listing.Price;
 
+                await applicationDbContext.SaveChangesAsync();
+                return result;
+            }
+            return null;
+        }
+        public async Task<Listing?> DeleteListing(int listingId)
+        {
+            var result = await applicationDbContext.Listing.FirstOrDefaultAsync(l => l.Id == listingId);
+            if (result != null)
+            {
+                applicationDbContext.Listing.Remove(result);
                 await applicationDbContext.SaveChangesAsync();
                 return result;
             }
