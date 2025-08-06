@@ -3,35 +3,51 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using RealEstateApiEntity.Models;
+using RealEstateApiRepositories;
+using RealEstateApiRepositories.Contacts;
 using RealEstateApiServices.Contacts;
 
 namespace RealEstateApiServices
 {
     public class ListingService : IListingService
     {
-        public Task<Listing> CreateListingAsync(Listing listing)
+        private readonly IListingRepository listingRepository;
+
+        public ListingService(IListingRepository listingRepository)
         {
-            throw new NotImplementedException();
+            this.listingRepository = listingRepository;
         }
 
-        public Task<Listing?> DeleteListingAsync(int listingId)
+        public async Task<Listing> CreateListingAsync(Listing listing)
         {
-            throw new NotImplementedException();
+            if (listing == null)
+                throw new ArgumentNullException(nameof(listing));
+            return await listingRepository.CreateListing(listing);
         }
 
-        public Task<IEnumerable<Listing>> GetAllListingAsync()
+        public async Task<Listing?> DeleteListingAsync(int listingId)
         {
-            throw new NotImplementedException();
+            return await listingRepository.DeleteListing(listingId);
         }
 
-        public Task<Listing?> GetListingByIdAsync(int listingId)
+        public async Task<IEnumerable<Listing>> GetAllListingAsync()
         {
-            throw new NotImplementedException();
+            return await listingRepository.GetAllListing();
         }
 
-        public Task<Listing?> UpdateListingAsync(int ListingId, Listing listing)
+        public async Task<Listing?> GetListingByIdAsync(int listingId)
         {
-            throw new NotImplementedException();
+            return await listingRepository.GetListingById(listingId);
+        }
+
+        public async Task<Listing?> UpdateListingAsync(int listingId, Listing listing)
+        {
+            if (listing == null)
+                throw new ArgumentNullException(nameof(listing));
+            if (listingId != listing.Id)
+                throw new ArgumentException("Listing ID mismatch");
+            
+            return await listingRepository.UpdateListing(listingId, listing);
         }
     }
 }

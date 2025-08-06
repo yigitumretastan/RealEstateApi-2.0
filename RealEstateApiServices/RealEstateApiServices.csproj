@@ -2,6 +2,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RealEstateApiRepositories\RealEstateApiRepositories.csproj" />
+    <ProjectReference Include="..\RealEstateApiRepositories\RealEstateApiCore.csproj" />
+    <ProjectReference Include="..\RealEstateApiCore\RealEstateApiCore.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

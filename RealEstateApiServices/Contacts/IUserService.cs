@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using RealEstateApiEntity.Models;
+using RealEstateApiCore.DTOs;
 
 namespace RealEstateApiServices.Contacts
 {
@@ -10,8 +11,9 @@ namespace RealEstateApiServices.Contacts
     {
        Task<IEnumerable<User>> GetAllUsersAsync();
         Task<User?> GetUserByIdAsync(int userId);
-        Task<User> CreateUserAsync(User user);
-        Task<User?> UpdateUserAsync(int userId, User user);
+        Task<User> CreateUserAsync(RegisterDto registerDto);
+        Task<User?> UpdateUserAsync(int userId, UpdateUserDto updateUserDto);
         Task<User?> DeleteUserAsync(int userId);
+        Task<User?> LoginAsync(LoginDto loginDto);
     }
 }
