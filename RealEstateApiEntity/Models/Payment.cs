@@ -8,7 +8,7 @@ namespace RealEstateApiEntity.Models
     public class Payment
     {
         public int Id { get; set; }
-        public required string PaymentMethot { get; set; }
-        public int Biling { get; set; }
+        public required string PaymentMethod { get; set; }
+        public decimal Price { get; set; }
     }
 }
