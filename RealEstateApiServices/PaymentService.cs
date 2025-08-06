@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using RealEstateApiEntity.Models;
 using RealEstateApiRepositories.Contacts;
 using RealEstateApiServices.Contacts;
-using RealEstateApiCore.DTOs;
 
 namespace RealEstateApiServices
 {
@@ -22,7 +21,7 @@ namespace RealEstateApiServices
         {
             if (payment == null)
                 throw new ArgumentNullException(nameof(payment));
-          return await paymentRepository.CreatePayment(payment);
+            return await paymentRepository.CreatePayment(payment);
         }
 
         public async Task<Payment?> DeletePaymentAsync(int paymentId)
@@ -40,13 +39,18 @@ namespace RealEstateApiServices
             return await paymentRepository.GetPaymentById(paymentId);
         }
 
-        public async Task<Payment?> UpdatePaymentAsync(int paymentId, UpdateListingDto updateListingDto)
+        public async Task<Payment?> UpdatePaymentAsync(int paymentId, Payment payment)
         {
-            if (updateListingDto == null)
-                throw new ArgumentNullException(nameof(updateListingDto));
-                var existingPayment= await paymentRepository.GetPaymentById()
+            if (payment == null)
+                throw new ArgumentNullException(nameof(payment));
+            
+            var existingPayment = await paymentRepository.GetPaymentById(paymentId);
+            if (existingPayment == null)
+                return null;
+
             if (paymentId != payment.Id)
-                throw new ArgumentException("Paymend ID mismatch");
+                throw new ArgumentException("Payment ID mismatch");
+                
             return await paymentRepository.UpdatePayment(paymentId, payment);
         }
     }

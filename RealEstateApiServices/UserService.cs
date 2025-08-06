@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using RealEstateApiEntity.Models;
 using RealEstateApiRepositories.Contacts;
 using RealEstateApiServices.Contacts;
-using RealEstateApiCore.DTOs;
 
 namespace RealEstateApiServices
 {
@@ -27,52 +26,47 @@ namespace RealEstateApiServices
             return await userRepository.GetUserById(userId);
         }
 
-        public async Task<User> CreateUserAsync(RegisterDto registerDto)
+        public async Task<User> CreateUserAsync(User user)
         {
-            if (registerDto == null)
-                throw new ArgumentNullException(nameof(registerDto));
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
 
-            var newUser = new User
-            {
-                Name = registerDto.Name,
-                Email = registerDto.Email,
-                Password = registerDto.Password
-            };
+            if (string.IsNullOrEmpty(user.Name))
+                throw new ArgumentException("Name cannot be null or empty");
+            
+            if (string.IsNullOrEmpty(user.Email))
+                throw new ArgumentException("Email cannot be null or empty");
+            
+            if (string.IsNullOrEmpty(user.Password))
+                throw new ArgumentException("Password cannot be null or empty");
 
-            return await userRepository.CreateUser(newUser);
+            return await userRepository.CreateUser(user);
         }
 
-        public async Task<User?> LoginAsync(LoginDto loginDto)
+        public async Task<User?> LoginAsync(string email, string password)
         {
-            if (loginDto == null)
-                throw new ArgumentNullException(nameof(loginDto));
+            if (string.IsNullOrEmpty(email))
+                throw new ArgumentException("Email cannot be null or empty", nameof(email));
 
-            if (string.IsNullOrEmpty(loginDto.Email))
-                throw new ArgumentException("Email cannot be null or empty", nameof(loginDto.Email));
+            if (string.IsNullOrEmpty(password))
+                throw new ArgumentException("Password cannot be null or empty", nameof(password));
 
-            if (string.IsNullOrEmpty(loginDto.Password))
-                throw new ArgumentException("Password cannot be null or empty", nameof(loginDto.Password));
-
-            return await userRepository.Login(loginDto.Email, loginDto.Password);
+            return await userRepository.Login(email, password);
         }
 
-        public async Task<User?> UpdateUserAsync(int userId, UpdateUserDto updateUserDto)
+        public async Task<User?> UpdateUserAsync(int userId, User user)
         {
-            if (updateUserDto == null)
-                throw new ArgumentNullException(nameof(updateUserDto));
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
 
             if (userId <= 0)
                 throw new ArgumentException("Invalid user ID", nameof(userId));
 
             var existingUser = await userRepository.GetUserById(userId);
             if (existingUser == null)
-                throw new Exception("User not found");
+                return null;
 
-            existingUser.Name = updateUserDto.Name;
-            existingUser.Email = updateUserDto.Email;
-            existingUser.Password = updateUserDto.Password; 
-
-            return await userRepository.UpdateUser(userId, existingUser);
+            return await userRepository.UpdateUser(userId, user);
         }
 
         public async Task<User?> DeleteUserAsync(int userId)
