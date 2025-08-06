@@ -38,8 +38,8 @@ namespace RealEstateApiRepositories
             var result = await applicationDbContext.Payment.FirstOrDefaultAsync(p => p.Id == paymentId);
             if (result != null)
             {
-                result.PaymentMethot = payment.PaymentMethot;
-                result.Biling = payment.Biling;
+                result.PaymentMethod = payment.PaymentMethod;
+                result.Price = payment.Price;
 
                 await applicationDbContext.SaveChangesAsync();
                 return result;

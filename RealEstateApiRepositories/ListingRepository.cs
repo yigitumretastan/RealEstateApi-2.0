@@ -45,6 +45,7 @@ namespace RealEstateApiRepositories
                 result.Street = listing.Street;
                 result.Apartment = listing.Apartment;
                 result.RoomCount = listing.RoomCount;
+                result.RoomSize = listing.RoomSize;
                 result.Price = listing.Price;
 
                 await applicationDbContext.SaveChangesAsync();
@@ -52,6 +53,7 @@ namespace RealEstateApiRepositories
             }
             return null;
         }
+        
         public async Task<Listing?> DeleteListing(int listingId)
         {
             var result = await applicationDbContext.Listing.FirstOrDefaultAsync(l => l.Id == listingId);
