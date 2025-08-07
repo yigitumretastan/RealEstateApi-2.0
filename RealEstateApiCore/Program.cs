@@ -52,6 +52,7 @@ builder.Services.AddScoped<IListingService, ListingService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IPasswordService, PasswordService>();
 
 builder.Services.AddAuthentication(options =>
 {

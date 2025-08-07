@@ -21,7 +21,7 @@ namespace RealEstateApiCore.Controllers
             this.userService = userService;
         }
 
-        [Authorize]
+       [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {
