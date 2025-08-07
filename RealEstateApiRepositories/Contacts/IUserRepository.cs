@@ -8,6 +8,7 @@ namespace RealEstateApiRepositories.Contacts
     {
         Task<IEnumerable<User>> GetAllUsers();
         Task<User?> GetUserById(int userId);
+         Task<User?> GetUserByEmail(string email);
         Task<User> CreateUser(User user);
         Task<User?> Login(string email,string password);
         Task<User?> UpdateUser(int userId, User user);

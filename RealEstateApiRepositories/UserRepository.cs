@@ -25,6 +25,11 @@ namespace RealEstateApiRepositories
             return await applicationDbContext.User.FirstOrDefaultAsync(u => u.Id == userId);
         }
 
+        public async Task<User?> GetUserByEmail(string email)
+        {
+            return await applicationDbContext.User.FirstOrDefaultAsync(e => e.Email == email);
+        }
+
         public async Task<User> CreateUser(User user)
         {
             var result = await applicationDbContext.User.AddAsync(user);
