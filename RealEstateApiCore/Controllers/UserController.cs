@@ -92,8 +92,8 @@ namespace RealEstateApiCore.Controllers
                 var user = await userService.LoginAsync(loginDto.Email, loginDto.Password);
                 if (user == null)
                     return Unauthorized("Invalid email or password");
-                    
-                return Ok(user);
+                var token = user.Token;
+                return Ok(new{token});
             }
             catch (ArgumentException ex)
             {
