@@ -45,8 +45,6 @@ namespace RealEstateApiServices
         {
             if (listing == null)
                 throw new ArgumentNullException(nameof(listing));
-            if (id != listing.Id)
-                throw new ArgumentException("Listing ID mismatch");
             var pricePattern = @"^[1-9]\d*$";
             if (!Regex.IsMatch(listing.Price.ToString(), pricePattern))
             {
