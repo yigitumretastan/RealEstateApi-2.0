@@ -12,7 +12,6 @@ using RealEstateApiEntity.Models;
 using RealEstateApiRepositories.Contacts;
 using RealEstateApiServices.Contacts;
 using System.Text.RegularExpressions;
-using Azure.Core;
 
 namespace RealEstateApiServices
 {
@@ -38,12 +37,16 @@ namespace RealEstateApiServices
 
         public async Task<User?> GetUserByIdAsync(int userId) => await userRepository.GetUserById(userId);
 
-         public async Task<User?> GetUserByEmailAsync(string email) => await userRepository.GetUserByEmail(email);
+        public async Task<User?> GetUserByEmailAsync(string email) => await userRepository.GetUserByEmail(email);
 
         public async Task<User> CreateUserAsync(User user)
         {
+            var controluser = await userRepository.GetUserByEmail(user.Email);
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
+
+            if (controluser == null)
+                throw new ArgumentException("This email is already registered", nameof(user));
 
             if (string.IsNullOrEmpty(user.Name))
                 throw new ArgumentException("Name cannot be null or empty");
@@ -55,6 +58,8 @@ namespace RealEstateApiServices
                 throw new ArgumentException("Password cannot be null or empty");
             if (!IsValidPassword(user.Password))
                 throw new ArgumentException("Password must contain at least one uppercase letter, one lowercase letter, one number, and be at least 8 characters long.");
+            if (!IsValidEmail(user.Email))
+                throw new ArgumentException("Email address must include @ and .");
             user.Password = passwordService.HashPassword(user.Password);
 
 
@@ -65,7 +70,7 @@ namespace RealEstateApiServices
             return createdUser;
 
         }
-
+        
         public async Task<User?> LoginAsync(string email, string password)
         {
             if (string.IsNullOrEmpty(email))
@@ -75,12 +80,13 @@ namespace RealEstateApiServices
                 throw new ArgumentException("Password cannot be null or empty", nameof(password));
 
             var user = await userRepository.GetUserByEmail(email);
-      //      var user = await userRepository.Login(email, password);
+            //    var user = await userRepository.Login(email, password);
             if (user == null)
             {
                 return null;
             }
-            if (!passwordService.VerifyPassword(password,user.Password))
+
+            if (!passwordService.VerifyPassword(password, user.Password))
             {
                 throw new ArgumentException("Invalid email or password.");
             }
@@ -95,7 +101,6 @@ namespace RealEstateApiServices
 
             if (userId <= 0)
                 throw new ArgumentException("Invalid user ID", nameof(userId));
-
             var existingUser = await userRepository.GetUserById(userId);
             if (existingUser == null)
                 return null;
@@ -106,6 +111,7 @@ namespace RealEstateApiServices
         public async Task<User?> DeleteUserAsync(int userId)
         {
             return await userRepository.DeleteUser(userId);
+            
         }
         private string GenerateAuthToken(User user)
         {

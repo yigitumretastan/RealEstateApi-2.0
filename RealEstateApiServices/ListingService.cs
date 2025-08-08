@@ -6,6 +6,7 @@ using RealEstateApiEntity.Models;
 using RealEstateApiRepositories;
 using RealEstateApiRepositories.Contacts;
 using RealEstateApiServices.Contacts;
+using System.Text.RegularExpressions;
 
 namespace RealEstateApiServices
 {
@@ -18,18 +19,6 @@ namespace RealEstateApiServices
             this.listingRepository = listingRepository;
         }
 
-        public async Task<Listing> CreateListingAsync(Listing listing)
-        {
-            if (listing == null)
-                throw new ArgumentNullException(nameof(listing));
-            return await listingRepository.CreateListing(listing);
-        }
-
-        public async Task<Listing?> DeleteListingAsync(int listingId)
-        {
-            return await listingRepository.DeleteListing(listingId);
-        }
-
         public async Task<IEnumerable<Listing>> GetAllListingAsync()
         {
             return await listingRepository.GetAllListing();
@@ -40,14 +29,36 @@ namespace RealEstateApiServices
             return await listingRepository.GetListingById(listingId);
         }
 
-        public async Task<Listing?> UpdateListingAsync(int listingId, Listing listing)
+        public async Task<Listing> CreateListingAsync(Listing listing)
         {
             if (listing == null)
                 throw new ArgumentNullException(nameof(listing));
-            if (listingId != listing.Id)
+            var pricePattern = @"^[1-9]\d*$";
+            if (!Regex.IsMatch(listing.Price.ToString(), pricePattern))
+            {
+                throw new ArgumentException("The number entered cannot be 0 or start with 0.", nameof(listing.Price));
+            }
+            return await listingRepository.CreateListing(listing);
+        }
+
+        public async Task<Listing?> UpdateListingAsync(int id, Listing listing)
+        {
+            if (listing == null)
+                throw new ArgumentNullException(nameof(listing));
+            if (id != listing.Id)
                 throw new ArgumentException("Listing ID mismatch");
-            
-            return await listingRepository.UpdateListing(listingId, listing);
+            var pricePattern = @"^[1-9]\d*$";
+            if (!Regex.IsMatch(listing.Price.ToString(), pricePattern))
+            {
+                throw new ArgumentException("The number entered cannot be 0 or start with 0.", nameof(listing.Price));
+            }
+
+            return await listingRepository.UpdateListing(id, listing);
+        }
+
+        public async Task<Listing?> DeleteListingAsync(int listingId)
+        {
+            return await listingRepository.DeleteListing(listingId);
         }
     }
 }
