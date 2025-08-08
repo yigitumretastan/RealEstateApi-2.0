@@ -39,7 +39,9 @@ namespace RealEstateApiRepositories
             if (result != null)
             {
                 result.PaymentMethod = payment.PaymentMethod;
-                result.Price = payment.Price;
+                result.CardName = payment.CardName;
+                result.CardNumber = payment.CardNumber;
+                result.CardCode = payment.CardCode;
 
                 await applicationDbContext.SaveChangesAsync();
                 return result;

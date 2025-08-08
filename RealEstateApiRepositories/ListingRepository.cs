@@ -33,9 +33,9 @@ namespace RealEstateApiRepositories
             return result.Entity;
         }
 
-        public async Task<Listing?> UpdateListing(int listingId, Listing listing)
+        public async Task<Listing?> UpdateListing(int id, Listing listing)
         {
-            var result = await applicationDbContext.Listing.FirstOrDefaultAsync(l => l.Id == listingId);
+            var result = await applicationDbContext.Listing.FirstOrDefaultAsync(l => l.Id == id);
             if (result != null)
             {
                 result.Name = listing.Name;

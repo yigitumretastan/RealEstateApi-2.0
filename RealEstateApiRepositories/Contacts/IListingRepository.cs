@@ -9,7 +9,7 @@ namespace RealEstateApiRepositories.Contacts
         Task<IEnumerable<Listing>> GetAllListing();
         Task<Listing?> GetListingById(int listingId);
         Task<Listing> CreateListing(Listing listing);
-        Task<Listing?> UpdateListing(int ListingId, Listing listing);
+        Task<Listing?> UpdateListing(int id, Listing listing);
         Task<Listing?> DeleteListing(int listingId);
     }
 }
