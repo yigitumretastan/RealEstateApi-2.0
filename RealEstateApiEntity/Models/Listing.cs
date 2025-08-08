@@ -15,7 +15,7 @@ namespace RealEstateApiEntity.Models
         public required string Street { get; set; }
         public required string Apartment { get; set; }
         public required string RoomCount { get; set; }
-        public required string RoomSize { get; set; }
+        public required int RoomSize { get; set; }
         public decimal Price { get; set; }
     }
 }
