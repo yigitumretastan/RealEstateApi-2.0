@@ -14,7 +14,7 @@ namespace RealEstateApiCore.DTOs
         public  string? Street { get; set; }
         public  string? Apartment { get; set; }
         public  string? RoomCount { get; set; }
-        public  string? RoomSize { get; set; }
+        public  int RoomSize { get; set; }
         public decimal Price { get; set; }
 
     }

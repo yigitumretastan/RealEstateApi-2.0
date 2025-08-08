@@ -9,6 +9,7 @@ using RealEstateApiRepositories.Contacts;
 using RealEstateApiServices.Contacts;
 using Microsoft.AspNetCore.Authorization;
 using RealEstateApiCore.DTOs;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 
 namespace RealEstateApiCore.Controllers
 {
@@ -80,6 +81,19 @@ namespace RealEstateApiCore.Controllers
         {
             try
             {
+                // burada bu if tanımlarını düzelt 
+                /* var listing = new Listing
+                 {
+                 if (updateListingDto.Name !=)=> Name = updateListingDto.Name!;
+                 if (updateListingDto.Description !=)=> Description = updateListingDto.Description;
+                 if (updateListingDto.Province !=)=> Province = updateListingDto.Province!;
+                 if (updateListingDto.District !=)=> District = updateListingDto.District!;
+                 if (updateListingDto.Street !=)=> Street = updateListingDto.Street!,
+                 if (updateListingDto.Apartment !=)=> Apartment = updateListingDto.Apartment!;
+                 if (updateListingDto.RoomCount !=)=> RoomCount = updateListingDto.RoomCount!;
+                 if (updateListingDto.RoomSize !=)=> RoomSize = updateListingDto.RoomSize!;
+                 if (updateListingDto.Price !=)=> Price = updateListingDto.Price;
+                 */
                 var listing = new Listing
                 {
                     Name = updateListingDto.Name!,
@@ -90,8 +104,10 @@ namespace RealEstateApiCore.Controllers
                     Apartment = updateListingDto.Apartment!,
                     RoomCount = updateListingDto.RoomCount!,
                     RoomSize = updateListingDto.RoomSize!,
-                    Price = updateListingDto.Price
+                    Price = updateListingDto.Price,
                 };
+
+
                 var updateListing = await listingService.UpdateListingAsync(id, listing);
                 if (updateListing == null) return BadRequest();
                 return Ok(updateListing);
@@ -109,7 +125,7 @@ namespace RealEstateApiCore.Controllers
             {
                 var deleteListing = await listingService.DeleteListingAsync(id);
                 if (deleteListing == null) return NotFound();
-                return Ok(deleteListing);
+                return NoContent();
             }
             catch (Exception ex)
             {

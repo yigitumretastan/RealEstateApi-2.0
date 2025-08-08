@@ -23,7 +23,7 @@ namespace RealEstateApiCore.DTOs
         [Required]
         public required string RoomCount { get; set; }
         [Required]
-        public required string RoomSize { get; set; }
+        public int RoomSize { get; set; }
         [Required]
         public decimal Price { get; set; }
     }

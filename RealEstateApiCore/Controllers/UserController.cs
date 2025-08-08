@@ -21,31 +21,44 @@ namespace RealEstateApiCore.Controllers
             this.userService = userService;
         }
 
-       [Authorize]
+
+        [Authorize]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers()
         {
             try
             {
                 var users = await userService.GetAllUsersAsync();
-                return Ok(users);
+                var usersdto = new UserDto
+                {
+                    Id = users.Id,
+                    Name = users.Name,
+                    Email = users.Email
+                };
+                return Ok(usersdto);
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-
         [Authorize]
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<User>> GetUserById(int id)
+        public async Task<ActionResult<UserDto>> GetUserById(int id)
         {
             try
             {
                 var user = await userService.GetUserByIdAsync(id);
                 if (user == null)
                     return NotFound();
-                return Ok(user);
+
+                var userdto = new UserDto
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Email = user.Email
+                };
+                return Ok(userdto);
             }
             catch (Exception ex)
             {
@@ -67,6 +80,9 @@ namespace RealEstateApiCore.Controllers
                     Email = registerDto.Email,
                     Password = registerDto.Password
                 };
+                if (registerDto == null)
+                    return BadRequest("Registration data is required");
+
 
                 var createdUser = await userService.CreateUserAsync(user);
                 return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createdUser);
@@ -92,8 +108,11 @@ namespace RealEstateApiCore.Controllers
                 var user = await userService.LoginAsync(loginDto.Email, loginDto.Password);
                 if (user == null)
                     return Unauthorized("Invalid email or password");
+                if (user == null)
+                    return Unauthorized("Invalid email or password");
+
                 var token = user.Token;
-                return Ok(new{token});
+                return Ok(new { token });
             }
             catch (ArgumentException ex)
             {
@@ -107,7 +126,7 @@ namespace RealEstateApiCore.Controllers
 
         [Authorize]
         [HttpPut("{id:int}")]
-        public async Task<ActionResult<User>> UpdateUser(int id, UpdateUserDto updateUserDto)
+        public async Task<ActionResult<UserDto>> UpdateUser(int id, UpdateUserDto updateUserDto)
         {
             try
             {
@@ -125,7 +144,7 @@ namespace RealEstateApiCore.Controllers
                 var updatedUser = await userService.UpdateUserAsync(id, user);
                 if (updatedUser == null)
                     return NotFound();
-                    
+
                 return Ok(updatedUser);
             }
             catch (ArgumentException ex)
@@ -147,7 +166,7 @@ namespace RealEstateApiCore.Controllers
                 var deletedUser = await userService.DeleteUserAsync(id);
                 if (deletedUser == null)
                     return NotFound();
-                return Ok("User Deleted");
+                return NoContent();
             }
             catch (Exception ex)
             {

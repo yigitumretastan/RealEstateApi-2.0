@@ -69,7 +69,9 @@ namespace RealEstateApiCore.Controllers
                     CardCode = paymentDto.CardCode,
                 };
                 var createdPayment = await paymentService.CreatePaymentAsync(payment);
-                return CreatedAtAction("payment successful", nameof(GetPayment), new { id = createdPayment.Id }, createdPayment);
+
+                return CreatedAtAction(nameof(GetPayment), new { id = createdPayment.Id }, createdPayment);
+
             }
             catch (Exception ex)
             {
@@ -112,7 +114,7 @@ namespace RealEstateApiCore.Controllers
                     return NotFound();
                 }
 
-                return Ok(deletedPayment);
+                return NoContent();
             }
             catch (Exception ex)
             {
