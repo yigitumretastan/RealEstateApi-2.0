@@ -147,7 +147,7 @@ namespace RealEstateApiCore.Controllers
                 var deletedUser = await userService.DeleteUserAsync(id);
                 if (deletedUser == null)
                     return NotFound();
-                return Ok(deletedUser);
+                return Ok("User Deleted");
             }
             catch (Exception ex)
             {

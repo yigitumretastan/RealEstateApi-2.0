@@ -2,12 +2,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace RealEstateApiCore.DTOs
 {
     public class PaymentDto
     {
-        public required string PaymentMethot { get; set; }
-        public int Price { get; set; }
+        [Required]
+        public int ListingId { get; set; }
+        [Required]
+        public required string PaymentMethod { get; set; }
+        [Required]
+        public required string CardName { get; set; }
+        [Required]
+        public int CardNumber { get; set; }
+        [Required]
+        public int CardCode { get; set; }
+        public int Price { get; }
     }
 }

@@ -6,6 +6,7 @@ using RealEstateApiEntity.Models;
 using RealEstateApiRepositories.Contacts;
 using RealEstateApiServices.Contacts;
 using Microsoft.AspNetCore.Authorization;
+using RealEstateApiCore.DTOs;
 
 namespace RealEstateApiCore.Controllers
 {
@@ -14,10 +15,11 @@ namespace RealEstateApiCore.Controllers
     public class PaymentController : ControllerBase
     {
         private readonly IPaymentService paymentService;
-
-        public PaymentController(IPaymentService paymentService)
+        private readonly IListingService listingService;
+        public PaymentController(IPaymentService paymentService, IListingService listingService)
         {
             this.paymentService = paymentService;
+            this.listingService = listingService;
         }
         [Authorize]
         [HttpGet]
@@ -50,23 +52,31 @@ namespace RealEstateApiCore.Controllers
         }
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult<Payment>> CreatePayment(Payment payment)
+        public async Task<ActionResult<Payment>> CreatePayment(PaymentDto paymentDto)
         {
             try
             {
-                if (payment == null)
+                if (paymentDto == null)
                 {
                     return BadRequest();
                 }
+                var payment = new Payment
+                {
+                    ListingId = paymentDto.ListingId,
+                    PaymentMethod = paymentDto.PaymentMethod,
+                    CardName = paymentDto.CardName,
+                    CardNumber = paymentDto.CardNumber,
+                    CardCode = paymentDto.CardCode,
+                };
                 var createdPayment = await paymentService.CreatePaymentAsync(payment);
-
-                return CreatedAtAction(nameof(GetPayment), new { id = createdPayment.Id }, createdPayment);
+                return CreatedAtAction("payment successful", nameof(GetPayment), new { id = createdPayment.Id }, createdPayment);
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+        /*   
         [Authorize]
         [HttpPut("{id:int}")]
         public async Task<ActionResult<Payment>> UpdatePayment(int id, Payment payment)
@@ -89,6 +99,7 @@ namespace RealEstateApiCore.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+        */
         [Authorize]
         [HttpDelete("{id:int}")]
         public async Task<ActionResult<Payment>> DeletePayment(int id)

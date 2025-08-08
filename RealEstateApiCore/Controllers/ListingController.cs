@@ -8,6 +8,7 @@ using RealEstateApiEntity.Models;
 using RealEstateApiRepositories.Contacts;
 using RealEstateApiServices.Contacts;
 using Microsoft.AspNetCore.Authorization;
+using RealEstateApiCore.DTOs;
 
 namespace RealEstateApiCore.Controllers
 {
@@ -48,11 +49,23 @@ namespace RealEstateApiCore.Controllers
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CreateListing(Listing listing)
+        public async Task<IActionResult> CreateListing(CreateListingDto createListingDto)
         {
             try
             {
-                if (listing == null) return BadRequest();
+                if (createListingDto == null) return BadRequest();
+                var listing = new Listing
+                {
+                    Name = createListingDto.Name,
+                    Description = createListingDto.Description,
+                    Province = createListingDto.Province,
+                    District = createListingDto.District,
+                    Street = createListingDto.Street,
+                    Apartment = createListingDto.Apartment,
+                    RoomCount = createListingDto.RoomCount,
+                    RoomSize = createListingDto.RoomSize,
+                    Price = createListingDto.Price
+                };
                 var CreateListing = await listingService.CreateListingAsync(listing);
                 return Ok(CreateListing);
             }
@@ -63,10 +76,22 @@ namespace RealEstateApiCore.Controllers
         }
         [Authorize]
         [HttpPut("{id:int}")]
-        public async Task<ActionResult<Listing>> UpdateOneListing(int id, Listing listing)
+        public async Task<ActionResult<Listing>> UpdateListing(int id, UpdateListingDto updateListingDto)
         {
             try
             {
+                var listing = new Listing
+                {
+                    Name = updateListingDto.Name!,
+                    Description = updateListingDto.Description,
+                    Province = updateListingDto.Province!,
+                    District = updateListingDto.District!,
+                    Street = updateListingDto.Street!,
+                    Apartment = updateListingDto.Apartment!,
+                    RoomCount = updateListingDto.RoomCount!,
+                    RoomSize = updateListingDto.RoomSize!,
+                    Price = updateListingDto.Price
+                };
                 var updateListing = await listingService.UpdateListingAsync(id, listing);
                 if (updateListing == null) return BadRequest();
                 return Ok(updateListing);
