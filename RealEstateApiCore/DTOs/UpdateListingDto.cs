@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RealEstateApiCore.DTOs
 {
@@ -14,8 +16,10 @@ namespace RealEstateApiCore.DTOs
         public  string? Street { get; set; }
         public  string? Apartment { get; set; }
         public  string? RoomCount { get; set; }
-        public  int RoomSize { get; set; }
-        public decimal Price { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "room size must be greater than 0")]
+        public int? RoomSize { get; set; }
+        [Range(0.01, double.MaxValue, ErrorMessage = "room size must be greater than 0")]
+        public decimal? Price { get; set; }
 
     }
 }

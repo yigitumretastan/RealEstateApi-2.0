@@ -81,35 +81,28 @@ namespace RealEstateApiCore.Controllers
         {
             try
             {
-                // burada bu if tanımlarını düzelt 
-                /* var listing = new Listing
-                 {
-                 if (updateListingDto.Name !=)=> Name = updateListingDto.Name!;
-                 if (updateListingDto.Description !=)=> Description = updateListingDto.Description;
-                 if (updateListingDto.Province !=)=> Province = updateListingDto.Province!;
-                 if (updateListingDto.District !=)=> District = updateListingDto.District!;
-                 if (updateListingDto.Street !=)=> Street = updateListingDto.Street!,
-                 if (updateListingDto.Apartment !=)=> Apartment = updateListingDto.Apartment!;
-                 if (updateListingDto.RoomCount !=)=> RoomCount = updateListingDto.RoomCount!;
-                 if (updateListingDto.RoomSize !=)=> RoomSize = updateListingDto.RoomSize!;
-                 if (updateListingDto.Price !=)=> Price = updateListingDto.Price;
-                 */
+                var existingListing = await listingService.GetListingByIdAsync(id);
+                if (existingListing == null)
+                    return NotFound();
+
                 var listing = new Listing
                 {
-                    Name = updateListingDto.Name!,
-                    Description = updateListingDto.Description,
-                    Province = updateListingDto.Province!,
-                    District = updateListingDto.District!,
-                    Street = updateListingDto.Street!,
-                    Apartment = updateListingDto.Apartment!,
-                    RoomCount = updateListingDto.RoomCount!,
-                    RoomSize = updateListingDto.RoomSize!,
-                    Price = updateListingDto.Price,
+                    Id = id,
+                    Name = updateListingDto.Name ?? existingListing.Name,
+                    Description = updateListingDto.Description ?? existingListing.Description,
+                    Province = updateListingDto.Province ?? existingListing.Province,
+                    District = updateListingDto.District ?? existingListing.District,
+                    Street = updateListingDto.Street ?? existingListing.Street,
+                    Apartment = updateListingDto.Apartment ?? existingListing.Apartment,
+                    RoomCount = updateListingDto.RoomCount ?? existingListing.RoomCount,
+                    RoomSize = updateListingDto.RoomSize > 0 ? updateListingDto.RoomSize.Value : existingListing.RoomSize,
+                    Price = updateListingDto.Price > 0 ? updateListingDto.Price.Value : existingListing.Price,
                 };
 
-
                 var updateListing = await listingService.UpdateListingAsync(id, listing);
-                if (updateListing == null) return BadRequest();
+                if (updateListing == null)
+                    return BadRequest();
+
                 return Ok(updateListing);
             }
             catch (Exception ex)

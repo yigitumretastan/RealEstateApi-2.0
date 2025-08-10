@@ -15,9 +15,8 @@ namespace RealEstateApiCore.DTOs
         [Required]
         public required string CardName { get; set; }
         [Required]
-        public int CardNumber { get; set; }
+        public long CardNumber { get; set; }
         [Required]
         public int CardCode { get; set; }
-        public int Price { get; }
     }
 }

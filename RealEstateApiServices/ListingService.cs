@@ -33,10 +33,9 @@ namespace RealEstateApiServices
         {
             if (listing == null)
                 throw new ArgumentNullException(nameof(listing));
-            var pricePattern = @"^[1-9]\d*$";
-            if (!Regex.IsMatch(listing.Price.ToString(), pricePattern))
+            if (listing.Price <= 0)
             {
-                throw new ArgumentException("The number entered cannot be 0 or start with 0.", nameof(listing.Price));
+                throw new ArgumentException("Fiyat 0'dan büyük olmalıdır.", nameof(listing.Price));
             }
             return await listingRepository.CreateListing(listing);
         }
@@ -45,10 +44,9 @@ namespace RealEstateApiServices
         {
             if (listing == null)
                 throw new ArgumentNullException(nameof(listing));
-            var pricePattern = @"^[1-9]\d*$";
-            if (!Regex.IsMatch(listing.Price.ToString(), pricePattern))
+            if (listing.Price <= 0)
             {
-                throw new ArgumentException("The number entered cannot be 0 or start with 0.", nameof(listing.Price));
+                throw new ArgumentException("Fiyat 0'dan büyük olmalıdır.", nameof(listing.Price));
             }
 
             return await listingRepository.UpdateListing(id, listing);

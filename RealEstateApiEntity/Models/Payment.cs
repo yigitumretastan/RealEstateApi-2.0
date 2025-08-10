@@ -11,7 +11,7 @@ namespace RealEstateApiEntity.Models
         public int ListingId { get; set; }
         public required string PaymentMethod { get; set; }
         public required string CardName { get; set; }
-        public required int CardNumber { get; set; }
+        public required long CardNumber { get; set; }
         public required int CardCode { get; set; }
         public decimal Price { get; }
     }

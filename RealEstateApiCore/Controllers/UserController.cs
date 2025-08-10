@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -29,12 +30,12 @@ namespace RealEstateApiCore.Controllers
             try
             {
                 var users = await userService.GetAllUsersAsync();
-                var usersdto = new UserDto
+                var usersdto = users.Select(user => new UserDto
                 {
-                    Id = users.Id,
-                    Name = users.Name,
-                    Email = users.Email
-                };
+                    Id = user.Id,
+                    Name = user.Name,
+                    Email = user.Email
+                }).ToList();
                 return Ok(usersdto);
             }
             catch (Exception ex)
@@ -80,9 +81,6 @@ namespace RealEstateApiCore.Controllers
                     Email = registerDto.Email,
                     Password = registerDto.Password
                 };
-                if (registerDto == null)
-                    return BadRequest("Registration data is required");
-
 
                 var createdUser = await userService.CreateUserAsync(user);
                 return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createdUser);
@@ -106,8 +104,6 @@ namespace RealEstateApiCore.Controllers
                     return BadRequest("Login data is required");
 
                 var user = await userService.LoginAsync(loginDto.Email, loginDto.Password);
-                if (user == null)
-                    return Unauthorized("Invalid email or password");
                 if (user == null)
                     return Unauthorized("Invalid email or password");
 

@@ -131,8 +131,9 @@ namespace RealEstateApiServices
         }
         public bool IsValidPassword(string password)
         {
-            var passwordPattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$";
+            var passwordPattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d\s]).{8,}$";
             return Regex.IsMatch(password, passwordPattern);
+
         }
         public bool IsValidEmail(string email)
         {

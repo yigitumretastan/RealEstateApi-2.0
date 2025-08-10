@@ -40,7 +40,7 @@ namespace RealEstateApiServices
             if (existingListing == null)
                 throw new ArgumentException("Invalid listing ID", nameof(payment.ListingId));
 
-
+            payment.Price = existingListing.Price;
             var createdPayment = await paymentRepository.CreatePayment(payment);
 
             return createdPayment;
