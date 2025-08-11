@@ -14,14 +14,40 @@ namespace RealEstateApiServices
     {
         private readonly IListingRepository listingRepository;
 
-        public ListingService(IListingRepository listingRepository)
+        public IEnumerable<Listing> GetFilterListing(
+            string? name = null,
+            string? Province = null,
+            string? District = null,
+            string? Street = null,
+            string? Apartment = null,
+            int? RoomCount = null,
+            int? RoomSize = null,
+            decimal? Price = null)
         {
-            this.listingRepository = listingRepository;
+            var listing = listingRepository.GetAllListing();
+            if (!string.IsNullOrEmpty(name))
+                listing = listing.Where(x => x.Name == name);
+            if (!string.IsNullOrEmpty(Province))
+                listing = listing.Where(x => x.Province == Province);
+            if (!string.IsNullOrEmpty(District))
+                listing = listing.Where(x => x.District == District);
+            if (!string.IsNullOrEmpty(Street))
+                listing = listing.Where(x => x.Street == Street)
+            if (!string.IsNullOrEmpty(Apartment))
+                listing = listing.Where(x => x.Apartment == Apartment);
+            if (!RoomCount.HasValue)
+                listing = listing.Where(x => x.RoomCount == RoomCount);
+            if (!RoomSize.HasValue)
+                listing = listing.Where(x => x.RoomSize == RoomSize);
+            if (!Price.HasValue)
+                listing = listing.Where(x => x.Price == Price);
+            return listing;
         }
 
         public async Task<IEnumerable<Listing>> GetAllListingAsync()
         {
-            return await listingRepository.GetAllListing();
+            // return await listingRepository.GetAllListing();
+            return await ListingService.GetFilterListing();
         }
 
         public async Task<Listing?> GetListingByIdAsync(int listingId)
