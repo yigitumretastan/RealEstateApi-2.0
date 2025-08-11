@@ -39,6 +39,13 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton<IPaginationUriService>(opt =>
+{
+    var httpContextAccessor = opt.GetRequiredService<IHttpContextAccessor>();
+    return new PaginationUriManager(httpContextAccessor);
+});
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllers();
 
@@ -82,7 +89,7 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = builder.Configuration["JWT:ValidAudience"],
         ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]!)),
-        ClockSkew = TimeSpan.Zero 
+        ClockSkew = TimeSpan.Zero
     };
 });
 
@@ -101,7 +108,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseAuthentication();                                
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
