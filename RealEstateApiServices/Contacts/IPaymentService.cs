@@ -13,5 +13,7 @@ namespace RealEstateApiServices.Contacts
         Task<Payment> CreatePaymentAsync(Payment payment);
         Task<Payment?> UpdatePaymentAsync(int paymentId, Payment payment);
         Task<Payment?> DeletePaymentAsync(int paymentId);
+        Task<long> GetTotalCountAsync();
+        Task<IEnumerable<Payment>> GetPagedPaymentAsync(int pageNumber, int pageSize);
     }
 }

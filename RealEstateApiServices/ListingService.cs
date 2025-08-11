@@ -7,6 +7,8 @@ using RealEstateApiRepositories;
 using RealEstateApiRepositories.Contacts;
 using RealEstateApiServices.Contacts;
 using System.Text.RegularExpressions;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace RealEstateApiServices
 {
@@ -14,41 +16,93 @@ namespace RealEstateApiServices
     {
         private readonly IListingRepository listingRepository;
 
-        public IEnumerable<Listing> GetFilterListing(
-            string? name = null,
-            string? Province = null,
-            string? District = null,
-            string? Street = null,
-            string? Apartment = null,
-            int? RoomCount = null,
-            int? RoomSize = null,
-            decimal? Price = null)
+        public ListingService(IListingRepository listingRepository)
         {
-            var listing = listingRepository.GetAllListing();
+            this.listingRepository = listingRepository;
+        }
+        public async Task<IEnumerable<Listing>> GetFilterListing(
+            string? name = null,
+            string? province = null,
+            string? district = null,
+            string? street = null,
+            string? apartment = null,
+            string? roomCount = null,
+            int? roomSize = null,
+            decimal? price = null,
+            int pageNumber = 1,
+            int pageSize = 10)
+        {
+            IQueryable<Listing> query = listingRepository.GetAllListing();
+
             if (!string.IsNullOrEmpty(name))
-                listing = listing.Where(x => x.Name == name);
-            if (!string.IsNullOrEmpty(Province))
-                listing = listing.Where(x => x.Province == Province);
-            if (!string.IsNullOrEmpty(District))
-                listing = listing.Where(x => x.District == District);
-            if (!string.IsNullOrEmpty(Street))
-                listing = listing.Where(x => x.Street == Street)
-            if (!string.IsNullOrEmpty(Apartment))
-                listing = listing.Where(x => x.Apartment == Apartment);
-            if (!RoomCount.HasValue)
-                listing = listing.Where(x => x.RoomCount == RoomCount);
-            if (!RoomSize.HasValue)
-                listing = listing.Where(x => x.RoomSize == RoomSize);
-            if (!Price.HasValue)
-                listing = listing.Where(x => x.Price == Price);
-            return listing;
+                query = query.Where(x => x.Name == name);
+            if (!string.IsNullOrEmpty(province))
+                query = query.Where(x => x.Province == province);
+            if (!string.IsNullOrEmpty(district))
+                query = query.Where(x => x.District == district);
+            if (!string.IsNullOrEmpty(street))
+                query = query.Where(x => x.Street == street);
+            if (!string.IsNullOrEmpty(apartment))
+                query = query.Where(x => x.Apartment == apartment);
+            if (!string.IsNullOrEmpty(roomCount))
+                query = query.Where(x => x.RoomCount == roomCount);
+            if (roomSize.HasValue)
+                query = query.Where(x => x.RoomSize == roomSize);
+            if (price.HasValue)
+                query = query.Where(x => x.Price == price);
+
+            return await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
         }
 
+
+
+        public async Task<int> GetFilteredCountAsync(
+                   string? name = null,
+                   string? province = null,
+                   string? district = null,
+                   string? street = null,
+                   string? apartment = null,
+                   string? roomCount = null,
+                   int? roomSize = null,
+                   decimal? price = null)
+        {
+            IQueryable<Listing> query = listingRepository.GetAllListing();
+
+            if (!string.IsNullOrEmpty(name))
+                query = query.Where(x => x.Name == name);
+            if (!string.IsNullOrEmpty(province))
+                query = query.Where(x => x.Province == province);
+            if (!string.IsNullOrEmpty(district))
+                query = query.Where(x => x.District == district);
+            if (!string.IsNullOrEmpty(street))
+                query = query.Where(x => x.Street == street);
+            if (!string.IsNullOrEmpty(apartment))
+                query = query.Where(x => x.Apartment == apartment);
+            if (!string.IsNullOrEmpty(roomCount))
+                query = query.Where(x => x.RoomCount == roomCount);
+            if (roomSize.HasValue)
+                query = query.Where(x => x.RoomSize == roomSize);
+            if (price.HasValue)
+                query = query.Where(x => x.Price == price);
+
+            return await query.CountAsync();
+        }
+        /*
         public async Task<IEnumerable<Listing>> GetAllListingAsync()
         {
-            // return await listingRepository.GetAllListing();
-            return await ListingService.GetFilterListing();
+
+            return await listingRepository.GetAllListing();
+            //return await GetFilterListing();
         }
+        */
+        public IQueryable<Listing> GetAllListing()
+        {
+            return listingRepository.GetAllListing();
+        }
+
 
         public async Task<Listing?> GetListingByIdAsync(int listingId)
         {
@@ -82,5 +136,17 @@ namespace RealEstateApiServices
         {
             return await listingRepository.DeleteListing(listingId);
         }
+
+        public async Task<int> GetTotalCountAsync()
+        {
+            return await listingRepository.GetTotalCount();
+        }
+
+        public async Task<IEnumerable<Listing>> GetPagedListingsAsync(int pageNumber, int pageSize)
+        {
+            return await listingRepository.GetPagedListings(pageNumber, pageSize);
+        }
+
+
     }
 }

@@ -10,7 +10,7 @@ namespace RealEstateApiServices
 {
     public class PaginationExtensions
     {
-        public static PaginationDataResult<T> CreatePaginationResult<T>(IReadOnlyList<T> pagedData, HttpStatusCode statusCode, PaginationQuery paginationQuery, int totalRecords, IPaginationUriService uriService)
+        public static PaginationDataResult<T> CreatePaginationResult<T>(IReadOnlyList<T> pagedData, HttpStatusCode statusCode, PaginationQuery paginationQuery, long totalRecords, IPaginationUriService uriService)
         {
             var result = new PaginationDataResult<T>(pagedData, statusCode, paginationQuery.PageNumber, paginationQuery.PageSize);
             var totalPages = Convert.ToInt32(Math.Ceiling((double)totalRecords / ((double)paginationQuery.PageSize)));

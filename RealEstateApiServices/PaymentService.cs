@@ -65,5 +65,15 @@ namespace RealEstateApiServices
         {
             return await paymentRepository.DeletePayment(paymentId);
         }
+
+        public async Task<long> GetTotalCountAsync()
+        {
+            return await paymentRepository.GetTotalCount();
+        }
+
+        public async Task<IEnumerable<Payment>> GetPagedPaymentAsync(int pageNumber, int pageSize)
+        {
+            return await paymentRepository.GetPagedPayment(pageNumber, pageSize);
+        }
     }
 }

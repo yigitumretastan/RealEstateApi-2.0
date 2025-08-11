@@ -15,6 +15,7 @@ namespace RealEstateApiServices.Contacts
         Task<User?> LoginAsync(string email, string password);
         Task<User?> UpdateUserAsync(int userId, User user);
         Task<User?> DeleteUserAsync(int userId);
-
+        Task<int> GetTotalCountAsync();
+        Task<IEnumerable<User>> GetPagedUserAsync(int pageNumber, int pageSize);
     }
 }

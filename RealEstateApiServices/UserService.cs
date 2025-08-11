@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
 using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Identity.Client;
 using Microsoft.Extensions.Configuration;
@@ -140,5 +141,16 @@ namespace RealEstateApiServices
             var emailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
             return Regex.IsMatch(email, emailPattern);
         }
+
+        public async Task<int> GetTotalCountAsync()
+        {
+            return await userRepository.GetTotalCount();
+        }
+
+        public async Task<IEnumerable<User>> GetPagedUserAsync(int pageNumber, int pageSize)
+        {
+            return await userRepository.GetPagedUser(pageNumber, pageSize);
+        }
+
     }
 }
