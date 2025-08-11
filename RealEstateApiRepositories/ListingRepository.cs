@@ -14,10 +14,17 @@ namespace RealEstateApiRepositories
         {
             this.applicationDbContext = applicationDbContext;
         }
-        
+
+        /*
         public async Task<IEnumerable<Listing>> GetAllListing()
         {
             return await applicationDbContext.Listing.ToListAsync();
+        }
+        */
+
+        public IQueryable<Listing> GetAllListing()
+        {
+            return applicationDbContext.Listing.AsQueryable();
         }
 
         public async Task<Listing?> GetListingById(int listingId)
@@ -53,7 +60,7 @@ namespace RealEstateApiRepositories
             }
             return null;
         }
-        
+
         public async Task<Listing?> DeleteListing(int listingId)
         {
             var result = await applicationDbContext.Listing.FirstOrDefaultAsync(l => l.Id == listingId);
@@ -65,5 +72,18 @@ namespace RealEstateApiRepositories
             }
             return null;
         }
+        public async Task<int> GetTotalCount()
+        {
+            return await applicationDbContext.Listing.CountAsync();
+        }
+
+        public async Task<IEnumerable<Listing>> GetPagedListings(int pageNumber, int pageSize)
+        {
+            return await applicationDbContext.Listing
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
     }
 }

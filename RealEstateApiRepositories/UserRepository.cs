@@ -71,6 +71,19 @@ namespace RealEstateApiRepositories
             }
             return result;
         }
+
+        public async Task<int> GetTotalCount()
+        {
+            return await applicationDbContext.User.CountAsync();
+        }
+
+        public async Task<IEnumerable<User>> GetPagedUser(int pageNumber, int pageSize)
+        {
+            return await applicationDbContext.User
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+        }
     }
 }
 

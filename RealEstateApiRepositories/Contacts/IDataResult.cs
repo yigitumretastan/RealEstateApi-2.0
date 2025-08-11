@@ -8,6 +8,6 @@ namespace RealEstateApiRepositories.Contacts
     public interface IDataResult<out T> : IResult
     {
         T Data { get; }
-        int TotalRecords { get; }
+        long TotalRecords { get; }
     }
 }

@@ -13,12 +13,12 @@ namespace RealEstateApiRepositories
         {
             this.Data = data;
         }
-        public DataResult(T data, HttpStatusCode statusCode, int totalRecords) :this(data, statusCode)
+        public DataResult(T data, HttpStatusCode statusCode, long totalRecords) :this(data, statusCode)
         {
             this.TotalRecords = totalRecords;
         }
 
-        public DataResult(T data, HttpStatusCode statusCode, int totalRecords, string message) : base(statusCode)
+        public DataResult(T data, HttpStatusCode statusCode, long totalRecords, string message) : base(statusCode)
         {
             this.Data = data;
             this.TotalRecords = totalRecords;
@@ -28,6 +28,6 @@ namespace RealEstateApiRepositories
             this.Data = data;
         }
         public T Data { get; }
-        public int TotalRecords { get; }
+        public long TotalRecords { get; }
     }
 }

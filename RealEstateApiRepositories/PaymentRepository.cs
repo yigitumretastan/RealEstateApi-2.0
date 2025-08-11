@@ -32,7 +32,7 @@ namespace RealEstateApiRepositories
             await applicationDbContext.SaveChangesAsync();
             return result.Entity;
         }
-        
+
         public async Task<Payment?> UpdatePayment(int paymentId, Payment payment)
         {
             var result = await applicationDbContext.Payment.FirstOrDefaultAsync(p => p.Id == paymentId);
@@ -59,6 +59,18 @@ namespace RealEstateApiRepositories
                 return result;
             }
             return null;
+        }
+        public async Task<long> GetTotalCount()
+        {
+            return await applicationDbContext.Payment.CountAsync();
+        }
+
+        public async Task<IEnumerable<Payment>> GetPagedPayment(int pageNumber, int pageSize)
+        {
+            return await applicationDbContext.Payment
+           .Skip((pageNumber - 1) * pageSize)
+           .Take(pageSize)
+           .ToListAsync();
         }
     }
 }

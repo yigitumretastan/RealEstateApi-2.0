@@ -11,5 +11,7 @@ namespace RealEstateApiRepositories.Contacts
         Task<Payment> CreatePayment(Payment payment);
         Task<Payment?> UpdatePayment(int paymentId, Payment payment);
         Task<Payment?> DeletePayment(int paymentId);
+        Task<long> GetTotalCount();
+        Task<IEnumerable<Payment>> GetPagedPayment(int pageNumber, int pageSize);
     }
 }

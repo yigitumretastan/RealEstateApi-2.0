@@ -13,7 +13,7 @@ namespace RealEstateApiRepositories.Contacts
         Uri? FirstPage { get; }
         Uri? LastPage { get; }
         int TotalPages { get; }
-        int TotalRecords { get; }
+        long TotalRecords { get; }
         Uri? NextPage { get; }
         Uri? PreviousPage { get; }
     }

@@ -6,10 +6,13 @@ namespace RealEstateApiRepositories.Contacts
 {
     public interface IListingRepository
     {
-        Task<IEnumerable<Listing>> GetAllListing();
+        IQueryable<Listing> GetAllListing();
         Task<Listing?> GetListingById(int listingId);
         Task<Listing> CreateListing(Listing listing);
         Task<Listing?> UpdateListing(int id, Listing listing);
         Task<Listing?> DeleteListing(int listingId);
+        Task<int> GetTotalCount();
+        Task<IEnumerable<Listing>> GetPagedListings(int pageNumber, int pageSize);
+
     }
 }
