@@ -13,6 +13,6 @@ namespace RealEstateApiEntity.Models
         public required string CardName { get; set; }
         public required long CardNumber { get; set; }
         public required int CardCode { get; set; }
-        public decimal Price { get; }
+        public decimal Price { get; set; }
     }
 }
