@@ -8,6 +8,8 @@ using RealEstateApiRepositories.Contacts;
 using RealEstateApiServices.Contacts;
 using Microsoft.AspNetCore.Authorization;
 using RealEstateApiCore.DTOs;
+using RealEstateApiRepositories;
+using RealEstateApiServices;
 
 namespace RealEstateApiCore.Controllers
 {
@@ -15,21 +17,31 @@ namespace RealEstateApiCore.Controllers
     [Route("api/[controller]")]
     public class PaymentController : ControllerBase
     {
+        private readonly IPaginationUriService paginationUriService;
         private readonly IPaymentService paymentService;
         private readonly IListingService listingService;
-        public PaymentController(IPaymentService paymentService, IListingService listingService)
+        public PaymentController(IPaymentService paymentService, IListingService listingService, IPaginationUriService paginationUriService)
         {
             this.paymentService = paymentService;
             this.listingService = listingService;
+            this.paginationUriService = paginationUriService;
         }
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetAllPayment()
+        public async Task<IActionResult> GetAllPayment([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
             try
             {
-                var payments = await paymentService.GetAllPaymentAsync();
-                return Ok(payments);
+                var paginationQuery = new PaginationQuery(pageNumber, pageSize);
+                var totalRecords = await paymentService.GetTotalCountAsync();
+                var pagedData = await paymentService.GetPagedPaymentAsync(pageNumber, pageSize);
+                var paginationResult = PaginationExtensions.CreatePaginationResult(
+                    pagedData.ToList(),
+                    System.Net.HttpStatusCode.OK,
+                    paginationQuery,
+                    totalRecords,
+                    paginationUriService);
+                return Ok(paginationResult);
             }
             catch (Exception ex)
             {

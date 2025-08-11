@@ -8,6 +8,8 @@ using RealEstateApiEntity.Models;
 using RealEstateApiServices.Contacts;
 using Microsoft.AspNetCore.Authorization;
 using RealEstateApiCore.DTOs;
+using RealEstateApiServices;
+using RealEstateApiRepositories;
 
 namespace RealEstateApiCore.Controllers
 {
@@ -15,28 +17,33 @@ namespace RealEstateApiCore.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
+        private readonly IPaginationUriService paginationUriService;
         private readonly IUserService userService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IPaginationUriService paginationUriService)
         {
             this.userService = userService;
+            this.paginationUriService = paginationUriService;
         }
 
 
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers()
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
             try
             {
-                var users = await userService.GetAllUsersAsync();
-                var usersdto = users.Select(user => new UserDto
-                {
-                    Id = user.Id,
-                    Name = user.Name,
-                    Email = user.Email
-                }).ToList();
-                return Ok(usersdto);
+                var paginationQuery = new PaginationQuery(pageNumber, pageSize);
+                var totalRecords = await userService.GetTotalCountAsync();
+                var pagedData = await userService.GetPagedUserAsync(pageNumber, pageSize);
+                var paginationResult = PaginationExtensions.CreatePaginationResult(
+                    pagedData.ToList(),
+                    System.Net.HttpStatusCode.OK,
+                    paginationQuery,
+                    totalRecords,
+                    paginationUriService);
+
+                return Ok(paginationResult);
             }
             catch (Exception ex)
             {

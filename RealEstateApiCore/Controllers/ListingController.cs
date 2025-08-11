@@ -10,6 +10,8 @@ using RealEstateApiServices.Contacts;
 using Microsoft.AspNetCore.Authorization;
 using RealEstateApiCore.DTOs;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
+using RealEstateApiServices;
+using RealEstateApiRepositories;
 
 namespace RealEstateApiCore.Controllers
 {
@@ -17,23 +19,67 @@ namespace RealEstateApiCore.Controllers
     [Route("api/[controller]")]
     public class ListingController : ControllerBase
     {
+        private readonly IPaginationUriService paginationUriService;
         private readonly IListingService listingService;
-        public ListingController(IListingService listingService)
+        public ListingController(IListingService listingService, IPaginationUriService paginationUriService)
         {
             this.listingService = listingService;
+            this.paginationUriService = paginationUriService;
         }
+        
         [HttpGet]
-        public async Task<IActionResult> GetAllListing()
+        public async Task<IActionResult> GetAllListing(
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] string? name = null,
+            [FromQuery] string? province = null,
+            [FromQuery] string? district = null,
+            [FromQuery] string? street = null,
+            [FromQuery] string? apartment = null,
+            [FromQuery] string? roomCount = null,
+            [FromQuery] int? roomSize = null,
+            [FromQuery] decimal? price = null)
         {
             try
             {
-                return Ok(await listingService.GetAllListingAsync());
+                var filteredListings = await listingService.GetFilterListing(
+                name,
+                province,
+                district,
+                street,
+                apartment,
+                roomCount,
+                roomSize,
+                price,
+                pageNumber,
+                pageSize
+            );
+
+                var totalRecords = filteredListings.Count();
+
+                var paginationQuery = new PaginationQuery(pageNumber, pageSize);
+
+                //  var totalRecords = await listingService.GetTotalCountAsync();
+
+                //  var pagedData = await listingService.GetPagedListingsAsync(pageNumber, pageSize);
+
+                var paginationResult = PaginationExtensions.CreatePaginationResult(
+                    filteredListings.ToList(),
+                    System.Net.HttpStatusCode.OK,
+                    paginationQuery,
+                    totalRecords,
+                    paginationUriService
+                    );
+
+                return Ok(paginationResult);
+                // return Ok(await listingService.GetAllListingAsync());
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetOneListingById(int id)
         {
