@@ -10,9 +10,11 @@ using Microsoft.AspNetCore.Authorization;
 using RealEstateApiCore.DTOs;
 using RealEstateApiServices;
 using RealEstateApiRepositories;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace RealEstateApiCore.Controllers
 {
+    [EnableRateLimiting("User")]
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase

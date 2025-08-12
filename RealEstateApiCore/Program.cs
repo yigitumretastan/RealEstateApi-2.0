@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using System.Threading.RateLimiting;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -48,9 +49,61 @@ builder.Services.AddSingleton<IPaginationUriService>(opt =>
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllers();
-
+builder.Services.AddRateLimiter(options =>
+{
+    /*
+    options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContent =>
+    RateLimitPartition.GetFixedWindowLimiter(
+        partitionKey: httpContent.Request.Headers.Host.ToString(), factory: partition => new FixedWindowRateLimiterOptions
+        {
+            AutoReplenishment = true,
+            PermitLimit = 3,
+            Window = TimeSpan.FromMinutes(1),
+            QueueLimit = 2,
+            QueueProcessingOrder = QueueProcessingOrder.OldestFirst
+        }
+    ));
+    */
+    options.AddPolicy("User", httpContext => RateLimitPartition.GetFixedWindowLimiter(httpContext.Request.Headers.Host.ToString(),
+    partition => new FixedWindowRateLimiterOptions
+    {
+        AutoReplenishment = true,
+        PermitLimit = 10,
+        Window = TimeSpan.FromMinutes(1)
+    }
+    ));
+    options.AddPolicy("Listing", httpContext => RateLimitPartition.GetFixedWindowLimiter(httpContext.Request.Headers.Host.ToString(),
+    partition => new FixedWindowRateLimiterOptions
+    {
+        AutoReplenishment = true,
+        PermitLimit = 10,
+        Window = TimeSpan.FromMinutes(1)
+    }
+    ));
+    options.AddPolicy("Payment", httpContext => RateLimitPartition.GetFixedWindowLimiter(httpContext.Request.Headers.Host.ToString(),
+    partition => new FixedWindowRateLimiterOptions
+    {
+        AutoReplenishment = true,
+        PermitLimit = 10,
+        Window = TimeSpan.FromMinutes(1)
+    }
+    ));
+    options.OnRejected = async (context, token) =>
+    {
+        context.HttpContext.Response.StatusCode = 429;
+        if (context.Lease.TryGetMetadata(MetadataName.RetryAfter, out var retryAfter))
+        {
+            await context.HttpContext.Response.WriteAsync($"You have reached the Request Limit. {retryAfter.TotalMinutes} Try again later", cancellationToken: token);
+        }
+        else
+        {
+            await context.HttpContext.Response.WriteAsync($"You have reached the Request Limit, then you are denied again", cancellationToken: token);
+        }
+    };
+});
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
+
 // builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //     options.UseSqlServer(
 //         builder.Configuration.GetConnectionString("DbConnection"),
@@ -104,7 +157,7 @@ if (app.Environment.IsDevelopment())
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
     });
 }
-
+app.UseRateLimiter();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
