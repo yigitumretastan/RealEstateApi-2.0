@@ -12,7 +12,5 @@ namespace RealEstateApiRepositories.Contacts
         Task<Listing?> UpdateListing(int id, Listing listing);
         Task<Listing?> DeleteListing(int listingId);
         Task<int> GetTotalCount();
-        Task<IEnumerable<Listing>> GetPagedListings(int pageNumber, int pageSize);
-
     }
 }

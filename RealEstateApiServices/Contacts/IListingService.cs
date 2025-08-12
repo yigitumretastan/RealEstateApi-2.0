@@ -8,7 +8,8 @@ namespace RealEstateApiServices.Contacts
 {
     public interface IListingService
     {
-        Task<IEnumerable<Listing>> GetFilterListing(string? name = null,
+        Task<IEnumerable<Listing>> GetFilterListing(
+            string? name = null,
             string? province = null,
             string? district = null,
             string? street = null,
@@ -17,14 +18,15 @@ namespace RealEstateApiServices.Contacts
             int? roomSize = null,
             decimal? price = null,
             int pageNumber = 1,
-            int pageSize = 10);
+            int pageSize = 10,
+            string? sortBy = null,
+            string? sortOrder = null);
         IQueryable<Listing> GetAllListing();
         Task<Listing?> GetListingByIdAsync(int listingId);
         Task<Listing> CreateListingAsync(Listing listing);
         Task<Listing?> UpdateListingAsync(int ListingId, Listing listing);
         Task<Listing?> DeleteListingAsync(int listingId);
         Task<int> GetTotalCountAsync();
-        Task<IEnumerable<Listing>> GetPagedListingsAsync(int pageNumber, int pageSize);
 
     }
 }

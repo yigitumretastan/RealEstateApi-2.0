@@ -77,13 +77,5 @@ namespace RealEstateApiRepositories
             return await applicationDbContext.Listing.CountAsync();
         }
 
-        public async Task<IEnumerable<Listing>> GetPagedListings(int pageNumber, int pageSize)
-        {
-            return await applicationDbContext.Listing
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-        }
-
     }
 }

@@ -26,7 +26,7 @@ namespace RealEstateApiCore.Controllers
             this.listingService = listingService;
             this.paginationUriService = paginationUriService;
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> GetAllListing(
             [FromQuery] int pageNumber = 1,
@@ -38,7 +38,9 @@ namespace RealEstateApiCore.Controllers
             [FromQuery] string? apartment = null,
             [FromQuery] string? roomCount = null,
             [FromQuery] int? roomSize = null,
-            [FromQuery] decimal? price = null)
+            [FromQuery] decimal? price = null,
+            [FromQuery] string sortBy = "Name",
+            [FromQuery] string sortOrder = "asc")
         {
             try
             {
@@ -52,7 +54,9 @@ namespace RealEstateApiCore.Controllers
                 roomSize,
                 price,
                 pageNumber,
-                pageSize
+                pageSize,
+                sortBy,
+                sortOrder
             );
 
                 var totalRecords = filteredListings.Count();

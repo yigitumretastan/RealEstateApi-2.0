@@ -30,7 +30,9 @@ namespace RealEstateApiServices
             int? roomSize = null,
             decimal? price = null,
             int pageNumber = 1,
-            int pageSize = 10)
+            int pageSize = 10,
+            string? sortBy = null,
+            string? sortOrder = null)
         {
             IQueryable<Listing> query = listingRepository.GetAllListing();
 
@@ -51,6 +53,16 @@ namespace RealEstateApiServices
             if (price.HasValue)
                 query = query.Where(x => x.Price == price);
 
+            bool descending = sortOrder?.ToLower() == "desc";
+            if (sortBy?.ToLower() == "price")
+            {
+                query = descending ? query.OrderByDescending(l => l.Price) : query.OrderBy(l => l.Price);
+            }
+            else
+            {
+                query = query.OrderBy(l => l.Name);
+            }
+
             return await query
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
@@ -58,7 +70,7 @@ namespace RealEstateApiServices
         }
 
 
-
+        /*
         public async Task<int> GetFilteredCountAsync(
                    string? name = null,
                    string? province = null,
@@ -90,6 +102,7 @@ namespace RealEstateApiServices
 
             return await query.CountAsync();
         }
+        */
         /*
         public async Task<IEnumerable<Listing>> GetAllListingAsync()
         {
@@ -141,12 +154,6 @@ namespace RealEstateApiServices
         {
             return await listingRepository.GetTotalCount();
         }
-
-        public async Task<IEnumerable<Listing>> GetPagedListingsAsync(int pageNumber, int pageSize)
-        {
-            return await listingRepository.GetPagedListings(pageNumber, pageSize);
-        }
-
 
     }
 }
